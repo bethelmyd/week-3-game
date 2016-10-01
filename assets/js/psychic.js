@@ -9,14 +9,19 @@ var computerGuess = "";
 
 document.onkeydown = function(event)
 {
-	document.querySelector("#results").innerHTML = "";
-	var userGuess = getUserGuess(event);
-	computerGuess = getComputerGuess();
-	seeWhoWonRound(userGuess, computerGuess);
 	if(guessesLeft == 0)
 	{
-		seeWhoWon();
-		reset();
+		reset();		
+	}
+	else
+	{
+		var userGuess = getUserGuess(event);
+		computerGuess = getComputerGuess();
+		seeWhoWonRound(userGuess, computerGuess);
+		if(guessesLeft == 0)
+		{
+			seeWhoWon();
+		}
 	}
 }
 
@@ -58,15 +63,15 @@ function seeWhoWon()
 {
 	if(wins > losses)
 	{
-		document.querySelector("#results").innerHTML = "Congrats! You won!";	
+		document.querySelector("#results").innerHTML = "<p>Congrats! You won!</p><p>Press any key to play again.</p>";	
 	}
 	else if (losses > wins)
 	{
-		document.querySelector("#results").innerHTML = "Sorry! You lost!";	
+		document.querySelector("#results").innerHTML = "<p>Sorry! You lost!</p><p>Press any key to play again.</p>";	
 	}
 	else
 	{
-		document.querySelector("#results").innerHTML = "Looks like we tied.";	
+		document.querySelector("#results").innerHTML = "<p>Looks like we tied.</p><p>Press any key to play again.</p>";	
 	}
 }
 
@@ -82,4 +87,5 @@ function reset()
 	document.querySelector("#losses").innerHTML = losses;	
 	document.querySelector("#guessesLeft").innerHTML = guessesLeft;	
 	document.querySelector("#computerGuess").innerHTML = computerGuess;	
+	document.querySelector("#results").innerHTML = "";
 }
