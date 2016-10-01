@@ -14,7 +14,6 @@
 
 	<link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
 
-
 </head>
 <body>
 
@@ -50,19 +49,22 @@
 				<div id="rightOfMain">
 					<h4 class="text-center">Scoreboard</h4>
 
-					<ul class="nav nav-pills">
-						<li class="myTooltip">
+					<ul class="nav">
+						<li>
 							
-
+							Wins: <span id="wins">0</span>
 						</li>
-						<li class="myTooltip">
-							
+						<li>
+							Losses: <span id="losses">0</span>							
 						</li>
-						<li class="myTooltip">
-							
+						<li>
+							Guesses left: <span id="guessesLeft">10</span>							
 						</li>
-						<li class="myTooltip">
-							
+						<li>
+							Computer guessed: <span id="computerGuess"></span>							
+						</li>
+						<li>
+							Your guesses so far: <span id="guesses"></span>							
 						</li>
 					</ul>
 				</div>
@@ -77,5 +79,7 @@
 		</div>
 	</footer>
 
+<!-- all JavaScript links go here -->
+<script src="../assets/js/psychic.js"></script>
 </body>
 </html>
