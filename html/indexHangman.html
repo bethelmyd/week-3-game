@@ -13,7 +13,7 @@
 	<!-- <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-Xqcy5ttufkC3rBa8EdiAyA1VgOGrmel2Y+wxm4K3kI3fcjTWlDWrlnxyD6hOi3PF" crossorigin="anonymous">	 -->
 
 	<link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
-
+	<link rel="stylesheet" type="text/css" href="../assets/css/hangman-styles.css">
 
 </head>
 <body>
@@ -26,44 +26,58 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<h2>David G. Bethelmy - The Psychic Game</h2>
-			</div>
-			<div class="collapse navbar-collapse" id="headerNavbar">
-				<ul class="nav nav-pills navbar-right">
-					<li><button>Play Game</button></li>
-					<li><button>Stop Game</button></li>
-					<li><button>Repeat</button></li>
-				</ul>
+				<h2>David G. Bethelmy - Hangman</h2>
 			</div>
 		</div>
 	</nav>
 
 	<main class="container">
 		<section class="row">
-			<section class = "col-md-8">
+			<section class = "col-md-6">
 				<div id="leftOfMain">
 					<h3>Instructions</h3>
+					<p>Determine which word has been selected by the computer by guessing the letters that make up the word.<br>
+					The word must be guessed before the complete figure of a man is drawn. <br>
+					Each wrong guess results in another part of the man being drawn starting with the head.
+					</p>
+					<div id="results"></div>
+				</div>
+			</section>
+			<section class = "col-md-2">
+				<div id="gallows" class="text-center">
+					<h4 class="text-center">Gallows</h4>
+					<table>
+						<tr><td>=</td><td>=</td><td>||</td><td></td></tr>
+						<tr><td></td><td></td><td>|</td><td></td></tr>
+						<tr><td></td><td></td><td id="head">O</td><td></td></tr>
+						<tr><td></td><td id = "leftArm">/</td><td class="body">|</td><td id="rightArm">\</td></tr>
+						<tr><td></td><td></td><td class="body">|</td><td></td></tr>
+						<tr><td></td><td id="leftLeg">/</td><td></td><td id="rightLeg">\</td></tr>
+					</table>
 				</div>
 			</section>
 			<section class="col-md-4">
 				<div id="rightOfMain">
 					<h4 class="text-center">Scoreboard</h4>
 
-					<ul class="nav nav-pills">
-						<li class="myTooltip">
+					<table>
+						<tr>
 							
-
-						</li>
-						<li class="myTooltip">
-							
-						</li>
-						<li class="myTooltip">
-							
-						</li>
-						<li class="myTooltip">
-							
-						</li>
-					</ul>
+							<td>Wins:</td> <td id="wins">0</td>
+						</tr>
+						<tr>
+							<td>Losses:</td> <td id="losses">0</td>							
+						</tr>
+						<tr>
+							<td>Guesses left:</td> <td id="guessesLeft">10</td>							
+						</tr>
+						<tr>
+							<td>Computer guessed:</td> <td id="computerGuess"></td>							
+						</tr>
+						<tr>
+							<td>Your guesses so far:</td> <td id="guesses"></td>							
+						</tr>
+					</table>
 				</div>
 			</section>
 		</section>
@@ -76,5 +90,7 @@
 		</div>
 	</footer>
 
+<!-- all JavaScript links go here -->
+<script src="../assets/js/hangman.js"></script>
 </body>
 </html>
