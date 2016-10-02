@@ -2,14 +2,16 @@
 var guesses = ""; //global variable
 var wins = 0;
 var losses = 0;
-var guessesLeft = 10;
+var guessesLeft = 6;
 var letters = "abcdefghijklmnopqrstuvwxyz";
 //var letters = "ab";
 var computerGuess = "";
+var gameOver = false;
+var numBodyParts = 6;
 
 document.onkeydown = function(event)
 {
-	if(guessesLeft == 0)
+	if(gameOver)
 	{
 		reset();		
 	}
@@ -18,7 +20,7 @@ document.onkeydown = function(event)
 		var userGuess = getUserGuess(event);
 		computerGuess = getComputerGuess();
 		seeWhoWonRound(userGuess, computerGuess);
-		if(guessesLeft == 0)
+		if(gameOver)
 		{
 			seeWhoWon();
 		}
@@ -49,10 +51,11 @@ function seeWhoWonRound(userGuess, computerGuess)
 	}
 	else
 	{
+		showPartOfMan(losses);
 		losses++;
 	}
 
-	guessesLeft--;
+	gameOver = (losses == numBodyParts);
 
 	document.querySelector("#wins").innerHTML = wins;	
 	document.querySelector("#losses").innerHTML = losses;	
@@ -88,4 +91,41 @@ function reset()
 	document.querySelector("#guessesLeft").innerHTML = guessesLeft;	
 	document.querySelector("#computerGuess").innerHTML = computerGuess;	
 	document.querySelector("#results").innerHTML = "";
+	hideMan();
+	gameOver = false;
+}
+
+var man = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
+function showPartOfMan(part)
+{
+	if(part == 1)  //show the torso
+	{
+		var torso = document.querySelectorAll("." + man[1]);
+		torso[0].style.visibility = "visible";
+		torso[1].style.visibility = "visible";
+	}
+	else
+	{
+		var otherPart = document.querySelector("#" + man[part]);
+		otherPart.style.visibility = "visible";		
+	}
+}
+
+function hideMan()
+{
+	for(var i = 0; i < man.length; i++)
+	{
+		var part = man[i];
+		if(i == 1)
+		{
+			var torso = document.querySelectorAll("." + man[1]);
+			torso[0].style.visibility = "hidden";
+			torso[1].style.visibility = "hidden";			
+		}
+		else
+		{
+			var otherPart = document.querySelector("#" + man[i]);
+			otherPart.style.visibility = "hidden";		
+		}
+	}
 }

@@ -9,4 +9,8 @@
     visibility: hidden;
 }
 
-
+#guesses{
+    color: white;
+    background-color: teal;
+    text-decoration: underline;
+}
