@@ -14,3 +14,15 @@
     background-color: teal;
     text-decoration: underline;
 }
+
+.btn-hangman{
+    background-color: teal;
+    color: white;
+}
+
+#wordGoesHere span{
+    text-decoration: underline;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 3px;
+}

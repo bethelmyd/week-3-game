@@ -2,27 +2,42 @@
 var guesses = ""; //global variable
 var wins = 0;
 var losses = 0;
-var guessesLeft = 6;
-var letters = "abcdefghijklmnopqrstuvwxyz";
-//var letters = "ab";
+var guessesLeft = 0;
+var words = ["doberman", "schnauzer", "rottweiler", "pekingese", "pug", "cocker spaniel", "pit bull", "maltese"];
+var word;
 var computerGuess = "";
 var gameOver = false;
 var numBodyParts = 6;
+var gameOn = false;
+
+document.querySelector("#startBtn").onclick = function(event)
+{
+	if(!gameOn)
+	{
+		reset();		
+		gameOn = true;
+		generateWord();
+		setUpWordEnvironment();
+	}
+}
+
+document.querySelector("#resetBtn").onclick = function(event)
+{
+	reset();
+}
 
 document.onkeydown = function(event)
 {
-	if(gameOver)
-	{
-		reset();		
-	}
-	else
+	if(gameOn)
 	{
 		var userGuess = getUserGuess(event);
-		computerGuess = getComputerGuess();
-		seeWhoWonRound(userGuess, computerGuess);
-		if(gameOver)
+		if(userGuess >= 'a' && userGuess <= 'z')
 		{
-			seeWhoWon();
+			processRound(userGuess);
+			if(!gameOn)
+			{
+				seeWhoWon();
+			}
 		}
 	}
 }
@@ -30,24 +45,46 @@ document.onkeydown = function(event)
 function getUserGuess(event)
 {
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-	guesses += userGuess + " ";
-	document.querySelector("#guesses").innerHTML = guesses;
+	if(userGuess >= 'a' && userGuess <= 'z')
+	{
+		guesses += userGuess + " ";
+		document.querySelector("#guesses").innerHTML = guesses;
+	}
 	return userGuess;
 }
 
-function getComputerGuess()
+function generateWord()
 {
-	var computerRandomNumber = Math.floor(Math.random() * letters.length);
-	var computerGuess = letters.charAt(computerRandomNumber);
-	document.querySelector("#computerGuess").innerHTML = computerGuess;	
-	return computerGuess;		
+	var computerRandomNumber = Math.floor(Math.random() * words.length);
+	word = words[computerRandomNumber];
+	guessesLeft = word.length;
 }
 
-function seeWhoWonRound(userGuess, computerGuess)
+function setUpWordEnvironment()
 {
-	if(userGuess == computerGuess)
+	// create the span tags for placing the word
+	var html = "";
+	for(var i = 0; i < word.length; i++)
 	{
-		wins++;
+		html += '<span class="' + word.charAt(i) + '">' + ((word.charAt(i)==' ')?' ':"*") + "</span>";
+	}
+
+	document.querySelector("#wordGoesHere").innerHTML += html;	
+}
+
+function processRound(userGuess)
+{
+	if(word.indexOf(userGuess) >= 0)  //letter was found in word
+	{
+		//replace letter in word by '*'
+		word = word.replace(userGuess, '*');
+		//replace the '*' in the corresponding output area with the letters
+		var spans = document.querySelectorAll("."+userGuess);
+		for(var i = 0; i < spans.length; i++)
+		{
+			spans[i].innerHTML = userGuess;
+		}
+		guessesLeft--;
 	}
 	else
 	{
@@ -55,26 +92,19 @@ function seeWhoWonRound(userGuess, computerGuess)
 		losses++;
 	}
 
-	gameOver = (losses == numBodyParts);
+	gameOn = !(losses == numBodyParts || guessesLeft == 0);
 
-	document.querySelector("#wins").innerHTML = wins;	
-	document.querySelector("#losses").innerHTML = losses;	
-	document.querySelector("#guessesLeft").innerHTML = guessesLeft;	
 }
 
 function seeWhoWon()
 {
-	if(wins > losses)
+	if(guessesLeft == 0)
 	{
-		document.querySelector("#results").innerHTML = "<p>Congrats! You won!</p><p>Press any key to play again.</p>";	
-	}
-	else if (losses > wins)
-	{
-		document.querySelector("#results").innerHTML = "<p>Sorry! You lost!</p><p>Press any key to play again.</p>";	
+		document.querySelector("#results").innerHTML = "<p>Whew!</p>";	
 	}
 	else
 	{
-		document.querySelector("#results").innerHTML = "<p>Looks like we tied.</p><p>Press any key to play again.</p>";	
+		document.querySelector("#results").innerHTML = "<p>Argggggggggg!</p>";	
 	}
 }
 
@@ -83,21 +113,19 @@ function reset()
 	guesses = "";
 	wins = 0;
 	losses = 0;
-	guessesLeft = 10;
 	computerGuess = "";
 	document.querySelector("#guesses").innerHTML = guesses;	
-	document.querySelector("#wins").innerHTML = wins;	
-	document.querySelector("#losses").innerHTML = losses;	
-	document.querySelector("#guessesLeft").innerHTML = guessesLeft;	
-	document.querySelector("#computerGuess").innerHTML = computerGuess;	
 	document.querySelector("#results").innerHTML = "";
+	document.querySelector("#wordGoesHere").innerHTML = "Current word: ";
 	hideMan();
 	gameOver = false;
+	gameOn = false;
 }
 
 var man = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
 function showPartOfMan(part)
 {
+	if(part < 0 || part >= man.length) return;
 	if(part == 1)  //show the torso
 	{
 		var torso = document.querySelectorAll("." + man[1]);

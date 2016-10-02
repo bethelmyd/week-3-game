@@ -40,7 +40,12 @@
 					The word must be guessed before the complete figure of a man is drawn. <br>
 					Each wrong guess results in another part of the man being drawn starting with the head.
 					</p>
-					<div id="results"></div>
+					<h4>Theme - Going to the Dogs</h4>
+					<p>Each of the words represents a breed of dog. See if you can guess which one.
+					</p>
+					<p><button id="startBtn" class="btn btn-hangman">Click to start game</button>
+					<button id="resetBtn" class="btn btn-hangman">Click to reset game</button></p>
+					
 				</div>
 			</section>
 			<section class = "col-md-2">
@@ -54,30 +59,14 @@
 						<tr><td></td><td></td><td class="body">|</td><td></td></tr>
 						<tr><td></td><td id="leftLeg">/</td><td></td><td id="rightLeg">\</td></tr>
 					</table>
+					<div id="results"></div>
 				</div>
 			</section>
 			<section class="col-md-4">
 				<div id="rightOfMain">
-					<h4 class="text-center">Scoreboard</h4>
-
-					<table>
-						<tr>
-							
-							<td>Wins: </td> <td id="wins">0</td>
-						</tr>
-						<tr>
-							<td>Losses: </td> <td id="losses">0</td>							
-						</tr>
-						<tr>
-							<td>Guesses left: </td> <td id="guessesLeft">10</td>							
-						</tr>
-						<tr>
-							<td>Computer guessed: </td> <td id="computerGuess"></td>							
-						</tr>
-						<tr>
-							<td>Your guesses so far: </td> <td id="guesses"></td>							
-						</tr>
-					</table>
+					<h4 class="text-center">Seating Gallery</h4>
+					<p id="wordGoesHere">Current word: </p>
+					<p>Your guesses so far: <span id="guesses"></span></p>					
 				</div>
 			</section>
 		</section>
