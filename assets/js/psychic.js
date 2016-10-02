@@ -3,8 +3,8 @@ var guesses = ""; //global variable
 var wins = 0;
 var losses = 0;
 var guessesLeft = 10;
-//var letters = "abcdefghijklmnopqrstuvwxyz";
-var letters = "ab";
+var letters = "abcdefghijklmnopqrstuvwxyz";
+//var letters = "ab";
 var computerGuess = "";
 
 document.onkeydown = function(event)
