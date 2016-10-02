@@ -57,7 +57,8 @@ function generateWord()
 {
 	var computerRandomNumber = Math.floor(Math.random() * words.length);
 	word = words[computerRandomNumber];
-	guessesLeft = word.length;
+	guessesLeft = word.length - countSpaces(word);
+	console.log(guessesLeft);
 }
 
 function setUpWordEnvironment()
@@ -84,7 +85,8 @@ function processRound(userGuess)
 		{
 			spans[i].innerHTML = userGuess;
 		}
-		guessesLeft--;
+		guessesLeft -= i;
+		console.log(guessesLeft);
 	}
 	else
 	{
@@ -156,4 +158,15 @@ function hideMan()
 			otherPart.style.visibility = "hidden";		
 		}
 	}
+}
+
+function countSpaces(str)
+{
+	var count = 0;
+	for(var i = 0; i < str.length; i++)
+	{
+		if(str.charAt(i) == ' ')
+			count++;
+	}
+	return count;
 }
