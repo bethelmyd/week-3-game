@@ -4,7 +4,7 @@ var wins = 0;
 var losses = 0;
 var guessesLeft = 0;
 var words = ["doberman", "schnauzer", "rottweiler", "pekingese", "pug", "cocker spaniel", "pit bull", "maltese"];
-var word;
+var word, wordCopy;
 var computerGuess = "";
 var gameOver = false;
 var numBodyParts = 6;
@@ -57,10 +57,20 @@ function generateWord()
 {
 	var computerRandomNumber = Math.floor(Math.random() * words.length);
 	word = words[computerRandomNumber];
+	wordCopy = word;
 	guessesLeft = word.length - countSpaces(word);
 	console.log(guessesLeft);
 }
 
+function showWord()
+//This shows the word to the loser if she lost
+{
+		var spans = document.querySelectorAll("#wordGoesHere span");
+		for(var i = 0; i < spans.length; i++)
+		{
+			spans[i].innerHTML = wordCopy.charAt(i);
+		}
+}
 function setUpWordEnvironment()
 {
 	// create the span tags for placing the word
@@ -107,6 +117,7 @@ function seeWhoWon()
 	}
 	else
 	{
+		showWord();
 		document.querySelector("#results").innerHTML = "<p>Argggggggggg!</p>";	
 	}
 }
