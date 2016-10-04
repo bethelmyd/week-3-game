@@ -1,5 +1,5 @@
 "use strict";
-var guesses = ""; //global variable
+var youGuessed = ""; //global variable
 var wins = 0;
 var losses = 0;
 var guessesLeft = 0;
@@ -47,8 +47,8 @@ function getUserGuess(event)
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 	if(userGuess >= 'a' && userGuess <= 'z')
 	{
-		guesses += userGuess + " ";
-		document.querySelector("#guesses").innerHTML = guesses;
+		youGuessed += userGuess + " ";
+		document.querySelector("#youGuessed").innerHTML = youGuessed;
 	}
 	return userGuess;
 }
@@ -77,15 +77,16 @@ function processRound(userGuess)
 {
 	if(word.indexOf(userGuess) >= 0)  //letter was found in word
 	{
-		//replace letter in word by '*'
-		word = word.replace(userGuess, '*');
+		var regExpression = new RegExp(userGuess, 'g');
+		// //replace letter in word by '*'
+		word = word.replace(regExpression, '*');
 		//replace the '*' in the corresponding output area with the letters
 		var spans = document.querySelectorAll("."+userGuess);
 		for(var i = 0; i < spans.length; i++)
 		{
 			spans[i].innerHTML = userGuess;
 		}
-		guessesLeft -= i;
+		guessesLeft -= spans.length;
 		console.log(guessesLeft);
 	}
 	else
@@ -112,11 +113,11 @@ function seeWhoWon()
 
 function reset()
 {
-	guesses = "";
+	youGuessed = "";
 	wins = 0;
 	losses = 0;
 	computerGuess = "";
-	document.querySelector("#guesses").innerHTML = guesses;	
+	document.querySelector("#youGuessed").innerHTML = "";	
 	document.querySelector("#results").innerHTML = "";
 	document.querySelector("#wordGoesHere").innerHTML = "Current word: ";
 	hideMan();
