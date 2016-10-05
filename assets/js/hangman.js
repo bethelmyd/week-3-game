@@ -13,12 +13,14 @@ var numBodyParts = MAX_BODY_PARTS;
 var gameOn = false;
 var man = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
 
+
 document.onload = playMusic();
 
 document.querySelector("#startBtn").onclick = function(event)
 {
 	if(!gameOn)
 	{
+		stopMusic();
 		reset();		
 		gameOn = true;
 		generateWord();
@@ -30,12 +32,14 @@ document.querySelector("#startBtn").onclick = function(event)
 document.querySelector("#resetBtn").onclick = function(event)
 {
 	reset();
+	playMusic();
 }
 
 document.querySelector("#resetScoreBtn").onclick = function(event)
 {
 	reset();
 	resetScoreboard();
+	playMusic();
 }
 
 document.onkeydown = function(event)
@@ -57,16 +61,6 @@ document.onkeydown = function(event)
 function getUserGuess(event)
 {
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-	// if(userGuess >= 'a' && userGuess <= 'z')
-	// {
-	// 	if(youGuessed.indexOf(userGuess) == -1)  //did not already guess this
-	// 	{
-	// 		youGuessed += userGuess + " ";
-	// 		document.querySelector("#youGuessed").innerHTML = youGuessed;			
-	// 	}
-	// 	else
-	// 		userGuess = ""; //ignore it
-	// }
 	return userGuess;
 }
 
@@ -141,6 +135,7 @@ function seeWhoWon()
 		losses++;
 		showWord();
 		document.querySelector("#results").innerHTML = "<p>Argggggggggg!</p>";	
+		howl();
 	}
 	document.querySelector("#wins").innerHTML = wins;	
 	document.querySelector("#losses").innerHTML = losses;	
@@ -218,9 +213,22 @@ function countSpaces(str)
 
 function playMusic()
 {
-	var audio = document.querySelector("audio");
+	var audio = document.querySelector("#themeMusic");
 	audio.play();
 	audio.onended = function(){
 		audio.play();
 	};
+}
+
+function stopMusic()
+{
+	var audio = document.querySelector("#themeMusic");
+	audio.pause();
+}
+
+function howl()
+{
+	var audio = document.querySelector("#howl");
+	audio.play();
+
 }
