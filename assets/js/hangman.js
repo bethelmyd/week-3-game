@@ -1,5 +1,7 @@
 "use strict";
-var youGuessed = ""; //global variable
+
+var MAX_BODY_PARTS = 6;
+var youGuessed = "";
 var wins = 0;
 var losses = 0;
 var guessesLeft = 0;
@@ -7,8 +9,9 @@ var words = ["doberman", "schnauzer", "rottweiler", "pekingese", "pug", "cocker 
 var word, wordCopy;
 var computerGuess = "";
 var gameOver = false;
-var numBodyParts = 6;
+var numBodyParts = MAX_BODY_PARTS;
 var gameOn = false;
+var man = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
 
 document.querySelector("#startBtn").onclick = function(event)
 {
@@ -18,12 +21,19 @@ document.querySelector("#startBtn").onclick = function(event)
 		gameOn = true;
 		generateWord();
 		setUpWordEnvironment();
+		document.querySelector("#numGuessesLeft").innerHTML = guessesLeft;
 	}
 }
 
 document.querySelector("#resetBtn").onclick = function(event)
 {
 	reset();
+}
+
+document.querySelector("#resetScoreBtn").onclick = function(event)
+{
+	reset();
+	resetScoreboard();
 }
 
 document.onkeydown = function(event)
@@ -59,7 +69,7 @@ function generateWord()
 	word = words[computerRandomNumber];
 	wordCopy = word;
 	guessesLeft = word.length - countSpaces(word);
-	console.log(guessesLeft);
+	// console.log(guessesLeft);
 }
 
 function showWord()
@@ -88,7 +98,7 @@ function processRound(userGuess)
 	if(word.indexOf(userGuess) >= 0)  //letter was found in word
 	{
 		var regExpression = new RegExp(userGuess, 'g');
-		// //replace letter in word by '*'
+		//replace letter in word by '*'
 		word = word.replace(regExpression, '*');
 		//replace the '*' in the corresponding output area with the letters
 		var spans = document.querySelectorAll("."+userGuess);
@@ -97,15 +107,16 @@ function processRound(userGuess)
 			spans[i].innerHTML = userGuess;
 		}
 		guessesLeft -= spans.length;
-		console.log(guessesLeft);
+		document.querySelector("#numGuessesLeft").innerHTML = guessesLeft;
+		//console.log(guessesLeft);
 	}
 	else
 	{
-		showPartOfMan(losses);
-		losses++;
+		showPartOfMan(numBodyParts);
+		numBodyParts--;
 	}
 
-	gameOn = !(losses == numBodyParts || guessesLeft == 0);
+	gameOn = !(numBodyParts == 0 || guessesLeft == 0);
 
 }
 
@@ -113,20 +124,24 @@ function seeWhoWon()
 {
 	if(guessesLeft == 0)
 	{
+		wins++;
 		document.querySelector("#results").innerHTML = "<p>Whew!</p>";	
 	}
 	else
 	{
+		losses++;
 		showWord();
 		document.querySelector("#results").innerHTML = "<p>Argggggggggg!</p>";	
 	}
+	document.querySelector("#wins").innerHTML = wins;	
+	document.querySelector("#losses").innerHTML = losses;	
+	document.querySelector("#total").innerHTML = wins+losses;		
 }
 
 function reset()
 {
 	youGuessed = "";
-	wins = 0;
-	losses = 0;
+	numBodyParts = MAX_BODY_PARTS;
 	computerGuess = "";
 	document.querySelector("#youGuessed").innerHTML = "";	
 	document.querySelector("#results").innerHTML = "";
@@ -136,9 +151,18 @@ function reset()
 	gameOn = false;
 }
 
-var man = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
-function showPartOfMan(part)
+function resetScoreboard()
 {
+	wins = 0;
+	losses = 0;
+	document.querySelector("#wins").innerHTML = "";	
+	document.querySelector("#losses").innerHTML = "";	
+	document.querySelector("#total").innerHTML = "";	
+}
+
+function showPartOfMan(numPartsLeft)
+{
+	var part = MAX_BODY_PARTS - numPartsLeft;
 	if(part < 0 || part >= man.length) return;
 	if(part == 1)  //show the torso
 	{
