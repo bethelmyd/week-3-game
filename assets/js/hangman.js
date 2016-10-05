@@ -13,6 +13,8 @@ var numBodyParts = MAX_BODY_PARTS;
 var gameOn = false;
 var man = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
 
+document.onload = playMusic();
+
 document.querySelector("#startBtn").onclick = function(event)
 {
 	if(!gameOn)
@@ -212,4 +214,13 @@ function countSpaces(str)
 			count++;
 	}
 	return count;
+}
+
+function playMusic()
+{
+	var audio = document.querySelector("audio");
+	audio.play();
+	audio.onended = function(){
+		audio.play();
+	};
 }
