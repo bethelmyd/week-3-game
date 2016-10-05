@@ -1,3 +1,9 @@
+body{
+    background-image: url("../images/schnauzers.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 #gallows{
     padding: 10px;
     background-color: white;
@@ -25,4 +31,11 @@
     display: inline-block;
     margin-right: 5px;
     padding: 3px;
+}
+
+.information{
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 5px;
 }
