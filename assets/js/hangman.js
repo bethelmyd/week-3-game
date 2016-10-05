@@ -55,11 +55,16 @@ document.onkeydown = function(event)
 function getUserGuess(event)
 {
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-	if(userGuess >= 'a' && userGuess <= 'z')
-	{
-		youGuessed += userGuess + " ";
-		document.querySelector("#youGuessed").innerHTML = youGuessed;
-	}
+	// if(userGuess >= 'a' && userGuess <= 'z')
+	// {
+	// 	if(youGuessed.indexOf(userGuess) == -1)  //did not already guess this
+	// 	{
+	// 		youGuessed += userGuess + " ";
+	// 		document.querySelector("#youGuessed").innerHTML = youGuessed;			
+	// 	}
+	// 	else
+	// 		userGuess = ""; //ignore it
+	// }
 	return userGuess;
 }
 
@@ -75,11 +80,11 @@ function generateWord()
 function showWord()
 //This shows the word to the loser if she lost
 {
-		var spans = document.querySelectorAll("#wordGoesHere span");
-		for(var i = 0; i < spans.length; i++)
-		{
-			spans[i].innerHTML = wordCopy.charAt(i);
-		}
+	var spans = document.querySelectorAll("#wordGoesHere span");
+	for(var i = 0; i < spans.length; i++)
+	{
+		spans[i].innerHTML = wordCopy.charAt(i);
+	}
 }
 function setUpWordEnvironment()
 {
@@ -110,8 +115,10 @@ function processRound(userGuess)
 		document.querySelector("#numGuessesLeft").innerHTML = guessesLeft;
 		//console.log(guessesLeft);
 	}
-	else
+	else if(wordCopy.indexOf(userGuess) == -1 && youGuessed.indexOf(userGuess) == -1)  //it was not in the word AND you did not already guess this
 	{
+		youGuessed += userGuess + " ";
+		document.querySelector("#youGuessed").innerHTML = youGuessed;			
 		showPartOfMan(numBodyParts);
 		numBodyParts--;
 	}
