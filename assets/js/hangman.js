@@ -16,64 +16,64 @@ var man = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
 
 document.onload = playMusic();
 
-	document.querySelector("#startBtn").onclick = function(event)
+document.querySelector("#startBtn").onclick = function(event)
+{
+	if(!gameOn)
 	{
-		if(!gameOn)
+		stopMusic();
+		reset();		
+		gameOn = true;
+		generateWord();
+		setUpWordEnvironment();
+		document.querySelector("#numGuessesLeft").innerHTML = guessesLeft;
+	}
+};
+
+document.querySelector("#resetBtn").onclick = function(event)
+{
+	reset();
+	playMusic();
+};
+
+document.querySelector("#resetScoreBtn").onclick = function(event)
+{
+	reset();
+	resetScoreboard();
+	playMusic();
+};
+
+document.onkeydown = function(event)
+{
+	if(gameOn)
+	{
+		var userGuess = getUserGuess(event);
+		if(userGuess >= 'a' && userGuess <= 'z')
 		{
-			stopMusic();
-			reset();		
-			gameOn = true;
-			generateWord();
-			setUpWordEnvironment();
-			document.querySelector("#numGuessesLeft").innerHTML = guessesLeft;
-		}
-	};
-
-	document.querySelector("#resetBtn").onclick = function(event)
-	{
-		reset();
-		playMusic();
-	};
-
-	document.querySelector("#resetScoreBtn").onclick = function(event)
-	{
-		reset();
-		resetScoreboard();
-		playMusic();
-	};
-
-	document.onkeydown = function(event)
-	{
-		if(gameOn)
-		{
-			var userGuess = getUserGuess(event);
-			if(userGuess >= 'a' && userGuess <= 'z')
+			processRound(userGuess);
+			if(!gameOn)
 			{
-				processRound(userGuess);
-				if(!gameOn)
-				{
-					seeWhoWon();
-				}
+				seeWhoWon();
 			}
 		}
-	};
-
-	function getUserGuess(event)
-	{
-		var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-		return userGuess;
 	}
+};
 
-	function generateWord()
-	{
-		var computerRandomNumber = Math.floor(Math.random() * words.length);
-		word = words[computerRandomNumber];
-		wordCopy = word;
-		guessesLeft = word.length - countSpaces(word);
+function getUserGuess(event)
+{
+	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+	return userGuess;
+}
+
+function generateWord()
+{
+	var computerRandomNumber = Math.floor(Math.random() * words.length);
+	word = words[computerRandomNumber];
+	wordCopy = word;
+	guessesLeft = word.length - countSpaces(word);
 	// console.log(guessesLeft);
-	}
+}
 
-	function showWord()
+function showWord()
 	//This shows the word to the loser if she lost
 	{
 		var spans = document.querySelectorAll("#wordGoesHere span");
@@ -129,7 +129,6 @@ document.onload = playMusic();
 		{
 			wins++;
 			document.querySelector("#results").innerHTML = "<p>Whew!</p>";	
-			loadImage();
 		}
 		else
 		{
@@ -138,6 +137,7 @@ document.onload = playMusic();
 			document.querySelector("#results").innerHTML = "<p>Argggggggggg!</p>";	
 			howl();
 		}
+		loadImage();
 		document.querySelector("#wins").innerHTML = wins;	
 		document.querySelector("#losses").innerHTML = losses;	
 		document.querySelector("#total").innerHTML = wins+losses;		
